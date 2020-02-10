@@ -1,4 +1,3 @@
-const playButton = document.getElementById('button-play')
 const canvas = document.getElementById('visualizer')
 canvas.width = 300
 canvas.height = 300
@@ -8,7 +7,7 @@ const width = canvas.width
 const height = canvas.height
 const centerX = width / 2
 const centerY = height / 2
-const radius = Math.min(width, height) / 5
+const radius = Math.min(width, height) / 13
 
 let analyzer
 let frequencyArray
@@ -46,7 +45,7 @@ const render = () => {
 	context.beginPath()
 
 	context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-	context.strokeStyle = 'red'
+	context.strokeStyle = '#002B36'
 
 	context.stroke()
 
@@ -72,6 +71,6 @@ const render = () => {
 }
 
 
-playButton.addEventListener('click', (event) => {
+canvas.addEventListener('click', (event) => {
 	startAudio()
 })
