@@ -1,12 +1,14 @@
 const playButton = document.getElementById('button-play')
 const canvas = document.getElementById('visualizer')
+canvas.width = 300
+canvas.height = 300
 const context = canvas.getContext('2d')
 
 const width = canvas.width
 const height = canvas.height
 const centerX = width / 2
 const centerY = height / 2
-// const radius = width / 5
+const radius = Math.min(width, height) / 5
 
 let analyzer
 let frequencyArray
@@ -34,6 +36,8 @@ const startAudio = () => {
 
 	// play the audio
 	audio.play()
+	
+	render()
 }
 
 
@@ -46,15 +50,28 @@ const render = () => {
 
 	context.stroke()
 
-	const bars = 200
+	const bars = 1024
 	const step = Math.PI * 2 / bars
 
-	analyser.getByteFrequencyData(frequencyArray)
+	analyzer.getByteFrequencyData(frequencyArray)
+
+	frequencyArray.forEach((f, i) => {
+		const barLength = frequencyArray[i] * 0.5
+		const x1 = (Math.cos(step * i) * radius) + centerX
+		const y1 = (Math.sin(step * i) * radius) + centerY
+		const x2 = (Math.cos(step * i) * (radius + barLength)) + centerX
+		const y2 = (Math.sin(step * i) * (radius + barLength)) + centerY
+
+		context.moveTo(x1, y1)
+		context.lineTo(x2, y2)
+	})
+
+	context.stroke()
 
 	requestAnimationFrame(render)
 }
 
 
-playButton.addEventListener('click', (ev) => {
+playButton.addEventListener('click', (event) => {
 	startAudio()
 })
