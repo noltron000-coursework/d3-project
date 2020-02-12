@@ -13,8 +13,5 @@ main {
 
 #visualizer {
 	margin: 40px;
-	border: solid;
-	border-radius: 100%;
-	border-color: #002B36;
-	border-width: 30px;
+	background-color: black;
 }

@@ -3,15 +3,8 @@ canvas.width = 300
 canvas.height = 300
 const context = canvas.getContext('2d')
 
-const width = canvas.width
-const height = canvas.height
-const centerX = width / 2
-const centerY = height / 2
-const radius = Math.min(width, height) / 13
-
 let analyzer
 let frequencyArray
-
 
 const startAudio = () => {
 	// TODO: understand what this does a little better
@@ -39,37 +32,61 @@ const startAudio = () => {
 	render()
 }
 
-
 const render = () => {
-	// context.clearRect(0, 0, width, height)
-	context.fillStyle = '#025A6C30'
-	context.fillRect(0, 0, 300, 300)
-	context.fill()
+	context.clearRect(0, 0, canvas.length, canvas.width)
 
-	context.beginPath()
-
-	context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-	context.strokeStyle = '#002B36'
-
-	context.stroke()
-
-	const bars = 1024
-	const step = Math.PI * 2 / bars
-
+	// populate the frequencyArray
 	analyzer.getByteFrequencyData(frequencyArray)
+	
+	// loop through the frequencyArray
+	frequencyArray.forEach((frequency01, index01) => {
+		// get the width-multiplier of the graph-curve segment.
+		const xMult = frequencyArray.length / canvas.width
+		// get the height-multiplier of the graph-curve segment.
+		const yMult = canvas.height / 255
 
-	frequencyArray.forEach((f, i) => {
-		const barLength = frequencyArray[i] * 0.5
-		const x1 = (Math.cos(step * i) * radius) + centerX
-		const y1 = (Math.sin(step * i) * radius) + centerY
-		const x2 = (Math.cos(step * i) * (radius + barLength)) + centerX
-		const y2 = (Math.sin(step * i) * (radius + barLength)) + centerY
+		// stop before the final iteration.
+		if (frequencyArray.length <= index01 + 1) {
 
-		context.moveTo(x1, y1)
-		context.lineTo(x2, y2)
+			// get second frequency item.
+			const index02 = index01 + 1
+			const frequency02 = frequencyArray[index02]
+
+			// get coordinates based on data.
+			const startPoint = {
+				x: index01 * xMult,
+				y: frequency01 * yMult,
+			}
+			const endPoint = {
+				x: index02 * xMult,
+				y: frequency02 * yMult,
+			}
+			const handle01 = {
+				x: startPoint.x + xMult/2,
+				y: startPoint.y,
+			}
+			const handle02 = {
+				x: endPoint.x - xMult/2,
+				y: endPoint.y,
+			}
+
+			// draw
+			context.beginPath()
+			context.moveTo(
+				startPoint.x,
+				startPoint.y,
+			)
+			context.bezierCurveTo(
+				handle01.x,
+				handle01.y,
+				handle02.x,
+				handle02.y,
+				endPoint.x,
+				endPoint.y,
+			)
+			context.stroke()
+		}
 	})
-
-	context.stroke()
 
 	requestAnimationFrame(render)
 }
