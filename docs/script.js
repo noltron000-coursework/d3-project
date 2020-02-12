@@ -33,7 +33,7 @@ const startAudio = () => {
 }
 
 const render = () => {
-	context.clearRect(0, 0, canvas.length, canvas.width)
+	context.clearRect(0, 0, canvas.width, canvas.height)
 
 	// populate the frequencyArray
 	analyzer.getByteFrequencyData(frequencyArray)
@@ -46,7 +46,7 @@ const render = () => {
 		const yMult = canvas.height / 255
 
 		// stop before the final iteration.
-		if (frequencyArray.length <= index01 + 1) {
+		if (frequencyArray.length >= index01 + 1) {
 
 			// get second frequency item.
 			const index02 = index01 + 1
