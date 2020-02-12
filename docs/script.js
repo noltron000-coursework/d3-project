@@ -24,7 +24,7 @@ const startAudio = () => {
 
 	// load & apply audio files
 	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio
-	const audio = new Audio('./data/bird-whistling-a.wav')
+	const audio = new Audio('./data/rick-roll.mp3')
 	const source = audioContext.createMediaElementSource(audio)
 
 	// connect source audio with the analyzer
@@ -41,7 +41,11 @@ const startAudio = () => {
 
 
 const render = () => {
-	context.clearRect(0, 0, width, height)
+	// context.clearRect(0, 0, width, height)
+	context.fillStyle = '#025A6C30'
+	context.fillRect(0, 0, 300, 300)
+	context.fill()
+
 	context.beginPath()
 
 	context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
