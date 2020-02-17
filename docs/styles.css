@@ -1,0 +1,17 @@
+html, body {
+	background-color: #025A6C;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+
+#visualizer {
+	margin: 40px;
+	background-color: white;
+}
