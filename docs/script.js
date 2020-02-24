@@ -30,7 +30,7 @@ class AudioVisualizer {
 		// play the audio
 		audio.play()
 	}
-	
+
 	renderAudio () {
 		// populate the frequencyArray
 		this.analyzer.getByteFrequencyData(this.frequencyArray)
