@@ -8,12 +8,22 @@
 		</link>
 	</head>
 	<body>
-		<button
-			onclick='RickRoll()'
-			id='start-audio'
+		<audio
+			id='main-audio'
+			onplay='RickRoll()'
+			controls
+			muted
 		>
-			Visualize
-		</button>
+			<source
+				src='./data/rick-roll.mp3'
+				type='audio/mp3'
+			/>
+			This browser does not support the HTML5 audio element.
+		</audio>
+
+		<div id='main'>
+		</div>
+
 		<script src='https://d3js.org/d3.v5.min.js'>
 		</script>
 
