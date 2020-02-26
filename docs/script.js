@@ -4,30 +4,27 @@ class AudioVisualizer {
 		this.audioElement = document.getElementById('main-audio')
 		this.visualElement = document.getElementById('main')
 
-		// Create an "AudioContext".
+		// Load & initialize audio file to "Audio" object.
+		// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio
+		this.audio = new Audio(audioURL)
+
+		// Create an "AudioContext" and setup the analyzer.
 		// https://developer.mozilla.org/en-US/docs/Web/API/AudioContext
 		this.audioContext = new AudioContext()
 		this.audioAnalyzer = this.audioContext.createAnalyser()
+
+		// TODO: understand what this does a little better
+		// connect source audio with the analyzer
+		const source = this.audioContext.createMediaElementSource(this.audio)
+		source.connect(this.audioAnalyzer)
+		this.audioAnalyzer.connect(this.audioContext.destination)
 
 		// Initialize a special array of a certain size,
 		// although each index will have no value set yet.
 		this.frequencyArray = new Uint8Array(this.audioAnalyzer.frequencyBinCount)
 
-		// Load & initialize audio file to "Audio" object.
-		// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement/Audio
-		this.audio = new Audio(audioURL)
-
-		// TODO: understand what this does a little better
-		// connect source audio with the analyzer
-		this.audioAnalyzer.connect(this.audioContext.destination)
-		const source = this.audioContext.createMediaElementSource(this.audio)
-		source.connect(this.audioAnalyzer)
-
+		// Start the first frame by calling the .setup() method.
 		this.setup()
-	}
-
-	startAudio () {
-
 	}
 
 	setup () {
