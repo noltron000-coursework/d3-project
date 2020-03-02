@@ -34,11 +34,16 @@ class AudioVisualizer {
 	}
 
 	_getDataColor (index, frequency) {
-		const color = d3
+		return d3
 		.scaleLinear()
-		.domain([0, 150])
+		.domain([100, 200])
 		.range(["#2c7bb6","#d7191c"]) // this is a function!
-		(index) // immediately call it with an index.
+		(frequency) // immediately call it with an index.
+	}
+
+	_getDataAlpha (index, frequency) {
+		const number = Math.min(100, frequency/255)
+		return `${number*100}%`
 	}
 
 	_getPositionX (index, frequency) {
@@ -54,7 +59,9 @@ class AudioVisualizer {
 	}
 	
 	_getPropertyR (index, frequency) {
-		return this.props.width / this.frequencyArray.length / 2 + 0.3
+		const basic = this.props.width / this.frequencyArray.length / 2 + 0.3
+		const enlarge = basic * frequency / 15 - 5
+		return Math.max(basic, enlarge)
 	}
 
 	setup () {
@@ -74,10 +81,12 @@ class AudioVisualizer {
 		.data(this.frequencyArray)
 		.enter()
 		.append('circle')
+		.attr('optimizeQuality', 'optimizeSpeed')
 		.attr('r', (frequency, index) => this._getPropertyR(index, frequency))
 		.attr('cx', (frequency, index) => this._getPositionX(index, frequency))
 		.attr('cy', (frequency, index) => this._getPositionY(index, frequency))
 		.attr('fill', (frequency, index) => this._getDataColor(index, frequency))
+		.attr('fill-opacity', (frequency, index) => this._getDataAlpha(index, frequency))
 
 		// call render on the next frame
 		requestAnimationFrame(() => {
@@ -95,18 +104,8 @@ class AudioVisualizer {
 		.data(this.frequencyArray)
 		.attr('cy', (frequency, index) => this._getPositionY(index, frequency))
 		.attr('fill', (frequency, index) => this._getDataColor(index, frequency))
-
-		// d3
-		// .select('body')
-		// .data(this.frequencyArray)
-		// .enter()
-		// .append('div')
-		// .text(d => d)
-		// .style('padding', '1em')
-		// .style('background-color', 'red')
-		// .style('margin', '1px')
-		// .style('width', d => `${d / 255 * 100}%`)
-		// .style('box-sizing', 'border-box')
+		.attr('r', (frequency, index) => this._getPropertyR(index, frequency))
+		.attr('fill-opacity', (frequency, index) => this._getDataAlpha(index, frequency))
 
 		// repeat render function every frame
 		requestAnimationFrame(() => {
