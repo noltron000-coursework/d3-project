@@ -42,7 +42,7 @@ class AudioVisualizer {
 	}
 
 	_getDataAlpha (index, frequency) {
-		const number = Math.min(100, frequency/255)
+		const number = Math.min(100, frequency / 255)
 		return `${number*100}%`
 	}
 
@@ -57,10 +57,10 @@ class AudioVisualizer {
 	_getPositionY (index, frequency) {
 		return this.props.height / 2 - frequency
 	}
-	
+
 	_getPropertyR (index, frequency) {
 		const basic = this.props.width / this.frequencyArray.length / 2 + 0.3
-		const enlarge = basic * frequency / 15 - 5
+		const enlarge = basic * frequency / 10 - 5
 		return Math.max(basic, enlarge)
 	}
 

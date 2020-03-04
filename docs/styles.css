@@ -15,3 +15,7 @@ main {
 	margin: 40px;
 	background-color: white;
 }
+
+audio::-webkit-media-controls-enclosure {
+	background-color: #333;
+}
